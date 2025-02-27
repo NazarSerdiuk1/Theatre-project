@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
 from datetime import timedelta
 from pathlib import Path
 
@@ -80,6 +81,7 @@ WSGI_APPLICATION = "Theatre_prod.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+load_dotenv()
 
 DATABASES = {
     "default": {
