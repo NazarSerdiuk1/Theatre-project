@@ -15,8 +15,8 @@ class PlayViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['patch'])
     def mark_as_played(self, request, pk=None):
-        play = self.get_object()  # Получаем объект Play по его pk
-        play.status = 'played'  # Пример изменения статуса
+        play = self.get_object()  # Get Play object by its pk
+        play.status = 'played'  # Example of a status change
         play.save()
         return Response({"message": "Play marked as played."}, status=status.HTTP_200_OK)
 
@@ -43,3 +43,31 @@ class ReservationViewSet(viewsets.ModelViewSet):
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+
+class PlayViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for managing plays.
+
+    - Allows creating, updating, deleting, and retrieving plays.
+    - Additional `mark_as_played` method marks a play as performed.
+    """
+
+    queryset = Play.objects.all()
+    serializer_class = PlaySerializer
+
+    @action(detail=True, methods=["patch"])
+    def mark_as_played(self, request, pk=None):
+        """
+        Marks a play as performed.
+
+        **Request parameters**:
+        - **pk** (int): ID of the play.
+
+        **Response**:
+        - `200 OK`: Successfully marked as performed.
+        - `404 Not Found`: If the play does not exist.
+        """
+        play = self.get_object()
+        play.status = "played"
+        play.save()
+        return Response({"message": "Play marked as played."}, status=status.HTTP_200_OK)
